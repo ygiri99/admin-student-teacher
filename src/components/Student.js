@@ -19,7 +19,7 @@ export default function Student() {
 
   useEffect(() => {
     studentData(id);
-  }, []);
+  }, [id]);
 
   // console.log(studentDetail);
 

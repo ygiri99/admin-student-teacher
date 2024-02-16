@@ -17,7 +17,7 @@ export default function StudentDetail() {
 
  useEffect(() => {
   studentData(id);
- },[]);
+ },[id]);
 
  console.log(studentDetail);
  const {name,course,email,marks,percent} = studentDetail;
