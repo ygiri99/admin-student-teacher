@@ -1,0 +1,21 @@
+*,body {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+
+
+  .sidebar {
+    height: 100vh;
+  }
+
+ .login-portal ,.login{
+  height: 100dvh;
+  background-color: rgb(180, 180, 143);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+
+ 

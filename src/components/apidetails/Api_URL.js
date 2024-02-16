@@ -1,0 +1,1 @@
+export const Api_URL = 'https://63e76eeabb28627977121956.mockapi.io/student-teacher';
