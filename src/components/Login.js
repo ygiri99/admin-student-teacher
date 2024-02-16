@@ -81,7 +81,7 @@ export default function Login() {
                 <Input
                   id="checkbox2"
                   type="checkbox"
-                  required='true'
+                  required
                 />
                 {' '}
                 <Label>
