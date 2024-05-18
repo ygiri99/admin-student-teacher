@@ -1,41 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-import { addData } from "./apidetails/StudentApi";
+import { addTeacherData } from "./apidetails/StudentApi";
 
-export default function Addstudent() {
-  const dataof = "student";
+export default function AddTeacher() {
   const [checked, setChecked] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [course, setCoures] = useState('');
-  const [marks, setMarks] = useState(undefined);
-  const [percent, setPercent] = useState('');
-  const [result, setResult] = useState('');
+  const [subject, setSubject] = useState('');
+  const [experience, setExperience] = useState(undefined);
   const navigate = useNavigate();
 
   //Adding data to Api
   const postData = async () => {
+    const dataof = 'teacher';
     if (checked) {
-      try { await addData({ name, email, course, marks, percent, result,dataof }) }
+      try { await addTeacherData({ name, email, subject, experience, dataof }) }
       catch (error) { console.log(error) }
-      navigate('/student');
+      navigate('/teacher');
     } else {
       alert("tick the agree box");
     }
   }
-
-  //Calculating marks percentage
-  useEffect(() => {
-    if (marks) {
-      let markArray = String(marks).split(',').map((mark) => Number(mark));
-      let total = markArray.reduce((total, current) => total + current, 0);
-      let p = (parseFloat(total) / 5).toFixed(2);
-      setPercent(`${p}%`);
-      p >= 40 ? setResult('PASS') : setResult('FAIL');
-    }
-    else setPercent('')
-  }, [marks]);
 
   return (
     <Form>
@@ -68,14 +54,14 @@ export default function Addstudent() {
         </div>
         <div className="col">
           <Label for="name">
-            course
+            subject
           </Label>
           <Input
-            id="course"
-            name="course"
+            id="subject"
+            name="subject"
             type="select"
-            value={course}
-            onChange={(e) => { setCoures(e.target.value) }} >
+            value={subject}
+            onChange={(e) => { setSubject(e.target.value) }} >
             <option>
               Select
             </option>
@@ -93,42 +79,19 @@ export default function Addstudent() {
       </FormGroup>
       <FormGroup className="row">
         <div className="col">
-          <Label for="marks">
-            5 Subject marks each out of 100 with ","
+          <Label for="experience">
+            Experience in Years
           </Label>
           <Input
-            id="marks"
-            name="marks"
-            type="text"
-            value={marks}
+            id="experience"
+            name="experience"
+            type="number"
+            value={experience}
             onChange={(e) => {
-              setMarks(e.target.value)
+              setExperience(e.target.value)
             }} />
         </div>
-        <div className="col">
-          <Label for="name">
-            Percent
-          </Label>
-          <Input
-            id="percentage"
-            name="percentage"
-            type="text"
-            defaultValue={percent}
-
-          />
-        </div>
-        <div className="col">
-          <Label for="name">
-            Result
-          </Label>
-          <Input
-            id="Result"
-            name="Result"
-            type="text"
-            defaultValue={result}
-
-          />
-        </div>
+        
         <div className="col">
           <FormGroup check className="mt-5">
             <Input type="checkbox" checked={checked} onChange={() => setChecked(!checked)} />

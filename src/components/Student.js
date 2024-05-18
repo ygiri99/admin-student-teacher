@@ -1,61 +1,68 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
-import { readIdApi } from '../components/apidetails/StudentApi'
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Table } from 'reactstrap';
+import {useNavigate} from 'react-router-dom';
+import { useEffect } from 'react';
+import { useContext } from 'react';
+import {GrView} from 'react-icons/gr';
+import { MyContext } from '../App';
 
 export default function Student() {
 
-  //Id from url
-  const { id } = useParams();
+    const navigate = useNavigate();
+    const {apiData,getData, del} = useContext(MyContext);
 
-  const [studentDetail, setStudentDetail] = useState('');
-
-  const studentData = async (id) => {
-    try {
-      const data = await readIdApi(id);
-      setStudentDetail(data);
-    } catch (error) { console.log(error) }
-  }
-
-  useEffect(() => {
-    studentData(id);
-  }, [id]);
-
-  // console.log(studentDetail);
-
-  const { name, course, email, marks, percent } = studentDetail;
-
-
+    const upDate = ({id,name,email,course,marks,result}) => {
+      sessionStorage.setItem('id',id)
+      sessionStorage.setItem('name',name)
+      sessionStorage.setItem('email',email)
+      sessionStorage.setItem('course',course)
+      sessionStorage.setItem('marks',marks)
+      sessionStorage.setItem('result',result)
+      navigate('/updatestudent');
+    }
+  
+    const view = (id) => {
+      navigate(`${id}`)
+    }
+  
+    useEffect(() => {
+      getData("student");
+  },[]);
+  
   return (
     <>
-      <div className='px-1 fs-2'>
-        <strong>StudentDetail</strong>
-        <Link to='/' className='nav-link float-end'>Log Out</Link>
-      </div>
-
-      {/* Student details  and get record*/}
-
-      <hr />
-      <div className='px-1'>
-        <h4>Name: {name}</h4>
-        <h4>Course: {course}</h4>
-        <h4>Marks: {marks}</h4>
-        <h4>Percent: {percent}</h4>
-        <h4>Email: {email}</h4><br />
-        <div className=''>
-          <Form>
-            <FormGroup>
-              <Label for="exampleFile">
-                <h4> Choose record to upload:</h4>
-              </Label>
-              <Input
-                id="exampleFile"
-                name="file"
-                type="file"
-              />
-            </FormGroup>
-          </Form>
-        </div>
+        <Button className='bg-success' onClick={() => navigate('/addstudent')}>AddStudent</Button>
+        <Button className='bg-info float-end' onClick={() => navigate('/')}>Dashboard</Button>
+      <div>
+        <Table hover>
+          <thead className='container'>
+            <tr>
+              <th >Id</th>
+              <th >Name</th>
+              <th >Course</th>
+              <th >marks</th>
+              <th >Percent</th>
+              <th>Result</th>
+              <th>View</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {apiData.map((stud,index) => (
+              <tr key={stud.id}>
+              <th scope="row">{index+1}</th>
+              <td> {stud.name} </td>
+              <td> {stud.course}</td>
+              <td> {stud.marks}</td>
+              <td> {stud.percent}</td>
+              <td> {stud.result}</td>
+              <td><Button className= 'bg-secondary' onClick={() => view(stud.id)}>{<GrView/>}</Button></td>
+              <td><Button className= 'bg-warning' onClick={() => upDate(stud)}>Edit</Button></td>
+              <td><Button className='bg-danger' onClick={() => del(stud.id,stud.name,stud.dataof)}>Delete</Button></td>
+            </tr> 
+            ))}
+          </tbody>
+        </Table>
       </div>
     </>
   )

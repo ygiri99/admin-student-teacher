@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {Chart as ChartJS,BarElement, CategoryScale,LinearScale,Tooltip,Legend} from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { readApi } from '../apidetails/StudentApi';;
+import { MyContext } from '../../App';
+;
 
 export default function ChartBar() {
-  const [apiData, setApiData] = useState([]);
+  const {apiData, getData} = useContext(MyContext)
   
    useEffect(() => {
-      getData();
+      getData("student");
    },[])
-
-   const getData = async() => {
-    try { const data = await readApi();
-      setApiData(data);
-}
-catch(error){console.log(error); }
-  }
 
    let names = apiData.map(ele =>{
     return ele.name;
   })
 
   let marks = apiData.map(ele =>{
-    return ele.marks.split(',').map(Number).reduce((a,b) => a+b);
+    const TotalMark = ele.marks.split(',').map(Number).reduce((a,b) => a+b);
+    if(TotalMark)
+      return TotalMark;
+    else
+      return Math.trunc(Math.random()*500)
   })
    
    ChartJS.register(

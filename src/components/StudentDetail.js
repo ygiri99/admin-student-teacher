@@ -1,41 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom';
-import { readIdApi } from '../components/apidetails/StudentApi'
+import { MyContext } from '../App';
 
 export default function StudentDetail() {
 
-  const {id} = useParams();
+  const { id } = useParams();
+  const { getIdDetail, idDetail } = useContext(MyContext);
 
-  const [studentDetail, setStudentDetail] = useState('');
 
-  const studentData = async(id) => {
-    try {
-     const data = await readIdApi(id);
-     setStudentDetail(data);
-    } catch (error) {console.log(error)}
- }
 
- useEffect(() => {
-  studentData(id);
- },[id]);
+  useEffect(() => {
+    getIdDetail(id);
+  }, [id]);
 
- console.log(studentDetail);
- const {name,course,email,marks,percent} = studentDetail;
-
+  const { name, course, email, marks, percent } = idDetail;
 
   return (
     <div>
       <div className='px-3 fs-3'>
-      <strong>StudentDetail</strong>
-      <Link to='/teacher' className='nav-link float-end'>Back</Link>
+        <strong>StudentDetail</strong>
+        <Link to='/student' className='nav-link float-end'>Back</Link>
       </div>
       {/* Student details */}
-      <hr/>
+      <hr />
       <h4>Name: {name}</h4>
+      <h4>Email: {email}</h4>
       <h4>Course: {course}</h4>
       <h4>Marks: {marks}</h4>
       <h4>Percent: {percent}</h4>
-      <h4>Email: {email}</h4>
     </div>
   )
 }

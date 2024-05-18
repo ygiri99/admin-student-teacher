@@ -8,7 +8,6 @@ import { Col, Row, OffcanvasBody, OffcanvasHeader, Offcanvas } from 'reactstrap'
 export default function Home() {
   // getting windows width
   const width = useWindowsWidth();
-  // console.log(width);
   const [isOpen, setIsOpen] = useState(true);
 
   return (

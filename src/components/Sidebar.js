@@ -8,8 +8,8 @@ export default function Sidebar() {
     return (
         <div className='sidebar bg-info text-center text-black'>
             <h2><Link to='/' className='nav-link mt-3'><LiaSchoolSolid color='red'/>Layola<sup><IoSchoolSharp color='violet'/></sup></Link></h2><br />
-            <Link className='nav-link' to="/Loginportal">Student</Link><br /><hr />
-            <Link className='nav-link' to="/Loginportal">Teacher</Link><br /><hr />
+            <Link className='nav-link' to="/student">Student</Link><br /><hr />
+            <Link className='nav-link' to="/teacher">Teacher</Link><br /><hr />
         </div>
     )
 }
